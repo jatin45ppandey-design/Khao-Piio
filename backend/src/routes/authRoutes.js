@@ -4,6 +4,7 @@ const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 
 const router = express.Router();
+const JWT_SECRET = process.env.JWT_SECRET || 'khao-pio-super-secret';
 
 router.post('/signup', async (req, res) => {
   try {
@@ -26,7 +27,7 @@ router.post('/signup', async (req, res) => {
       password: hashedPassword,
     });
 
-    const token = jwt.sign({ id: user.id, email: user.email }, process.env.JWT_SECRET, {
+    const token = jwt.sign({ id: user.id, email: user.email }, JWT_SECRET, {
       expiresIn: '1h',
     });
 
@@ -62,7 +63,7 @@ router.post('/login', async (req, res) => {
       return res.status(401).json({ message: 'Invalid credentials' });
     }
 
-    const token = jwt.sign({ id: user.id, email: user.email }, process.env.JWT_SECRET, {
+    const token = jwt.sign({ id: user.id, email: user.email }, JWT_SECRET, {
       expiresIn: '1h',
     });
 

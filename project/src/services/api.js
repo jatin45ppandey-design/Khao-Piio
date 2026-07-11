@@ -1,1 +1,3 @@
-export const API_BASE_URL = 'https://khao-piio-production.up.railway.app/api';
+const configuredApiBaseUrl = import.meta.env.VITE_API_BASE_URL || '/api';
+
+export const API_BASE_URL = configuredApiBaseUrl.replace(/\/+$/, '');
