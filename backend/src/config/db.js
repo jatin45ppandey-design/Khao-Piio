@@ -6,16 +6,6 @@ const DB_PORT = Number(process.env.DB_PORT || 3306);
 const DB_USER = process.env.DB_USER || 'root';
 const DB_PASSWORD = process.env.DB_PASSWORD || '2501';
 
-const rootConnection = new Sequelize({
-  dialect: 'mysql',
-  host: DB_HOST,
-  port: DB_PORT,
-  username: DB_USER,
-  password: DB_PASSWORD,
-  database: 'mysql',
-  logging: false,
-});
-
 const sequelize = new Sequelize({
   dialect: 'mysql',
   host: DB_HOST,
@@ -24,6 +14,12 @@ const sequelize = new Sequelize({
   password: DB_PASSWORD,
   database: DB_NAME,
   logging: false,
+  dialectOptions: {
+    // This is the crucial SSL addition required for Aiven to accept the connection
+    ssl: {
+      rejectUnauthorized: false
+    }
+  },
   define: {
     timestamps: true,
     underscored: true,
@@ -38,9 +34,15 @@ const sequelize = new Sequelize({
 });
 
 async function initializeDatabase() {
-  await rootConnection.query(`CREATE DATABASE IF NOT EXISTS \`${DB_NAME}\`;`);
-  await rootConnection.close();
-  await sequelize.authenticate();
+  // Removed the rootConnection database creation logic. 
+  // Cloud DBs are pre-created (defaultdb), so we just authenticate directly.
+  try {
+    await sequelize.authenticate();
+    console.log('Connection to the database has been established successfully.');
+  } catch (error) {
+    console.error('Unable to connect to the database:', error);
+    throw error; // Throwing the error helps Render logs capture exactly why it failed
+  }
 }
 
 module.exports = {
