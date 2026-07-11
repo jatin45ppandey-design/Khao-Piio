@@ -263,7 +263,7 @@ export const foodItems = [
     price: 260,
     category: 'tandoor',
     image: 'https://images.unsplash.com/photo-1567188040759-fb8a883dc6d8?w=500&q=80',
-    rating: 4.7,
+    rating: 4.5,
     restaurantId: 'r1',
     isVeg: true,
     bestseller: true,
