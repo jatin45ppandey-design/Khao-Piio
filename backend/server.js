@@ -9,18 +9,20 @@ const paymentRoutes = require('./src/routes/paymentRoutes');
 
 const app = express();
 const allowedOrigins = (process.env.CORS_ORIGIN || '')
-  .split(',')
-  .map((origin) => origin.trim())
-  .filter(Boolean);
+    .split(',')
+    .map((origin) => origin.trim())
+    .filter(Boolean);
 
 app.use(
-  cors({
-    origin: allowedOrigins.length > 0 ? allowedOrigins : true,
-    credentials: true,
-  })
+    cors({
+      origin: allowedOrigins.length > 0 ? allowedOrigins : true,
+      credentials: true,
+    })
 );
+
 app.use(express.json());
 
+// Health check route
 app.get('/api/health', (req, res) => {
   res.json({ message: 'Khao-Pio backend is running' });
 });
