@@ -1,27 +1,79 @@
-# Khao-Pio Backend
+# Khao-Piio Backend
 
-A Node.js + Express + Sequelize + MySQL backend for user signup, login, and order placement/history.
+REST API for the Khao-Piio food ordering application.
 
-## Database
-- Connection name: Khaoo-Pio
-- Schema: `khao-pio`
-- Username: `root`
-- Password: `2501`
+## Stack
 
-## Run
+- Node.js
+- Express.js
+- Sequelize
+- MySQL
+- JWT authentication
+- bcrypt.js
+- Razorpay
+
+## Features
+
+- User signup and login
+- Password hashing
+- JWT-protected order APIs
+- Order creation and authenticated order history
+- Individual order lookup
+- Razorpay order creation
+- Razorpay signature verification
+- Environment-based CORS and database configuration
+
+## API Endpoints
+
+### Authentication
+
+```http
+POST /api/auth/signup
+POST /api/auth/login
+```
+
+### Orders
+
+```http
+POST /api/orders
+GET  /api/orders/history
+GET  /api/orders/:id
+```
+
+### Payments
+
+```http
+POST /api/payments/create-order
+POST /api/payments/verify
+```
+
+### Health
+
+```http
+GET /api/health
+```
+
+## Local Setup
+
 ```bash
 cd backend
 npm install
+```
+
+Copy `.env.example` to a local `.env` file and replace the placeholder/default values with your own configuration.
+
+Then run:
+
+```bash
+npm run dev
+```
+
+or:
+
+```bash
 npm start
 ```
 
-## API Endpoints
-- `POST /api/auth/signup`
-- `POST /api/auth/login`
-- `POST /api/orders`
-- `GET /api/orders/history`
+## Security
 
-## Notes
-- Users are stored in the `users` table.
-- Orders are stored in the `orders` table and linked to the logged-in user.
-- The order history is returned only for the authenticated user.
+Do not commit real database passwords, JWT secrets, or Razorpay credentials. Use environment variables and rotate credentials if they have ever been exposed in repository history.
