@@ -4,7 +4,11 @@ const DB_NAME = process.env.DB_NAME || 'khao-pio';
 const DB_HOST = process.env.DB_HOST || 'localhost';
 const DB_PORT = Number(process.env.DB_PORT || 3306);
 const DB_USER = process.env.DB_USER || 'root';
-const DB_PASSWORD = process.env.DB_PASSWORD || '2501';
+const DB_PASSWORD = process.env.DB_PASSWORD;
+
+if (!DB_PASSWORD) {
+  throw new Error('DB_PASSWORD environment variable is required');
+}
 
 const sequelize = new Sequelize({
   dialect: 'mysql',
